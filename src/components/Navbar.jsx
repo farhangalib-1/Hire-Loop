@@ -43,14 +43,15 @@ export default function Navbar() {
           >
             Sign In
           </Link>
-
+          <Link href="/signup">
           <Button
-            as={Link}
+            
             href="/signup"
             className="rounded-xl bg-violet-600 px-6 text-white hover:bg-violet-500"
           >
             Get Started
           </Button>
+          </Link>
         </div>
         <button
           onClick={() => setOpen(!open)}
