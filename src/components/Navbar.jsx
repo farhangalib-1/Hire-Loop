@@ -18,7 +18,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="w-full px-4 py-4">
+    <header className="w-full px-4 py-4 fixed z-50">
       <div className="mx-auto flex max-w-7xl items-center justify-between rounded-2xl bg-[#1F1F1F] px-6 py-3 shadow-lg">
         <Link href="/" className="text-3xl font-bold">
           <Image src={logo} alt="HireLoop Logo" width={100} height={50} ></Image>
