@@ -12,6 +12,7 @@ import {
 } from "@heroui/react";
 
 import { Check } from "@gravity-ui/icons";
+import Link from "next/link";
 
 export default function SignupForm() {
   const [image, setImage] = useState(null);
@@ -30,58 +31,99 @@ export default function SignupForm() {
   };
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-blue-100 flex justify-center pt-28 pb-12 px-5">
-      <div className="w-full max-w-md rounded-3xl bg-white shadow-2xl border border-default-200 p-8">
+    <section className="relative min-h-screen overflow-hidden bg-[#070611] pt-28 pb-16 px-5 flex justify-center items-start">
+
+      {/* Background Glow */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[420px] w-[420px] rounded-full bg-violet-600/20 blur-[160px]" />
+
+        <div className="absolute bottom-0 right-0 h-[350px] w-[350px] rounded-full bg-blue-600/10 blur-[150px]" />
+
+        <div className="absolute bottom-20 left-0 h-[300px] w-[300px] rounded-full bg-fuchsia-600/10 blur-[150px]" />
+
+      </div>
+
+      {/* Card */}
+
+      <div className="relative w-full max-w-lg rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,.45)] p-8">
+
+        {/* Badge */}
+
+        <div className="flex justify-center mb-6">
+
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-gray-300">
+
+            ✨ Join 50,000+ Professionals
+
+          </div>
+
+        </div>
+
+        {/* Heading */}
 
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold">
+
+          <h1 className="text-4xl font-extrabold text-white">
             Create Account
           </h1>
 
-          <p className="text-default-500 mt-2">
+          <p className="mt-3 text-gray-400">
             Join HireLoop and start your journey today.
           </p>
+
         </div>
 
+        {/* Form */}
+
         <Form
-          className="space-y-5"
+          className="space-y-6"
           onSubmit={handleSubmit}
         >
 
-          {/* Avatar */}
+          {/* Upload */}
 
           <div className="w-full flex justify-center">
+
             <label
               htmlFor="image"
               className="cursor-pointer"
             >
-              <div className="w-28 h-28 rounded-full border-2 border-dashed border-primary flex items-center justify-center overflow-hidden hover:scale-105 transition">
+
+              <div className="group w-32 h-32 rounded-full border-2 border-dashed border-white/20 bg-white/5 flex items-center justify-center overflow-hidden hover:border-violet-500 hover:bg-white/10 transition-all duration-300">
 
                 {image ? (
                   <img
                     src={URL.createObjectURL(image)}
+                    alt="Profile"
                     className="w-full h-full object-cover"
                   />
                 ) : (
                   <div className="text-center">
-                    <span className="text-4xl">📷</span>
 
-                    <p className="text-xs mt-1">
+                    <div className="text-5xl group-hover:scale-110 transition">
+                      📷
+                    </div>
+
+                    <p className="text-gray-300 text-sm mt-2">
                       Upload
                     </p>
+
                   </div>
                 )}
 
               </div>
 
               <input
-                id="image"
                 hidden
+                id="image"
                 type="file"
                 accept="image/*"
                 onChange={(e) => setImage(e.target.files[0])}
               />
+
             </label>
+
           </div>
 
           {/* Name */}
@@ -90,11 +132,18 @@ export default function SignupForm() {
             isRequired
             name="name"
           >
-            <Label>Full Name</Label>
 
-            <Input placeholder="John Doe" />
+            <Label className="text-gray-300">
+              Full Name
+            </Label>
+
+            <Input
+              placeholder="John Doe"
+              className={"bg-transparent text-white placeholder:text-gray-500 border border-white/10 hover:border-violet-500 focus-within:border-violet-500 backdrop-blur-md"}
+            />
 
             <FieldError />
+
           </TextField>
 
           {/* Email */}
@@ -113,11 +162,18 @@ export default function SignupForm() {
               return null;
             }}
           >
-            <Label>Email Address</Label>
 
-            <Input placeholder="john@example.com" />
+            <Label className="text-gray-300">
+              Email Address
+            </Label>
+
+            <Input
+              placeholder="john@example.com"
+              className={"bg-transparent text-white placeholder:text-gray-500 border border-white/10 hover:border-violet-500 focus-within:border-violet-500 backdrop-blur-md"}
+            />
 
             <FieldError />
+
           </TextField>
 
           {/* Password */}
@@ -127,49 +183,63 @@ export default function SignupForm() {
             name="password"
             type="password"
             validate={(value) => {
-              if (value.length < 8)
+              if (value.length < 8) {
                 return "Minimum 8 characters";
+              }
 
               return null;
             }}
           >
-            <Label>Password</Label>
 
-            <Input placeholder="Enter password" />
+            <Label className="text-gray-300">
+              Password
+            </Label>
 
-            <Description>
+            <Input
+              placeholder="Enter password"
+              className={"bg-transparent text-white placeholder:text-gray-500 border border-white/10 hover:border-violet-500 focus-within:border-violet-500 backdrop-blur-md"}
+            />
+
+            <Description className="text-gray-500">
               Minimum 8 characters.
             </Description>
 
             <FieldError />
+
           </TextField>
+
+          {/* Button */}
 
           <Button
             type="submit"
-            color="primary"
-            className="w-full h-12"
+            className="w-full h-12 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-semibold hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(139,92,246,.45)] transition-all duration-300"
           >
+
             <Check />
 
             Create Account
+
           </Button>
 
         </Form>
 
-        <p className="text-center mt-6 text-default-500">
+        {/* Footer */}
 
-          Already have an account?{" "}
+        <div className="mt-8 text-center text-gray-400">
 
-          <button
-            type="button"
-            className="text-primary font-semibold hover:underline"
+          Already have an account?
+
+          <Link
+            href="/signin"
+            className="ml-2 font-semibold text-violet-400 hover:text-violet-300 transition"
           >
             Sign In
-          </button>
+          </Link>
 
-        </p>
+        </div>
 
       </div>
+
     </section>
   );
 }

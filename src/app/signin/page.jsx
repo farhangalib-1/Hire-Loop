@@ -10,6 +10,7 @@ import {
   Button,
 } from "@heroui/react";
 
+import { FcGoogle } from "react-icons/fc";
 import { Check } from "@gravity-ui/icons";
 import Link from "next/link";
 
@@ -26,104 +27,175 @@ export default function SignInPage() {
   };
 
   return (
-    <section className="min-h-screen pt-24 pb-12 px-5 bg-gradient-to-br from-slate-100 via-white to-blue-100">
-      <div className="mx-auto w-full max-w-md rounded-3xl border border-default-200 bg-white p-8 shadow-2xl">
+    <section className="relative min-h-screen overflow-hidden bg-[#070611] pt-28 pb-16 px-5 flex justify-center items-start">
+
+      {/* Background Glow */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[420px] w-[420px] rounded-full bg-violet-600/20 blur-[160px]" />
+
+        <div className="absolute bottom-0 right-0 h-[350px] w-[350px] rounded-full bg-blue-600/10 blur-[150px]" />
+
+        <div className="absolute bottom-20 left-0 h-[300px] w-[300px] rounded-full bg-fuchsia-600/10 blur-[150px]" />
+
+      </div>
+
+      {/* Card */}
+
+      <div className="relative w-full max-w-lg rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,.45)] p-8">
+
+        {/* Badge */}
+
+        <div className="flex justify-center mb-6">
+
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-gray-300">
+
+            👋 Welcome Back
+
+          </div>
+
+        </div>
 
         {/* Header */}
+
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-default-900">
-            Welcome Back 👋
+
+          <h1 className="text-4xl font-extrabold text-white">
+            Sign In
           </h1>
 
-          <p className="mt-2 text-default-500">
-            Sign in to continue to HireLoop.
+          <p className="mt-3 text-gray-400">
+            Continue your journey with HireLoop.
           </p>
+
         </div>
 
         {/* Form */}
+
         <Form
-          className="space-y-5"
+          className="space-y-6"
           onSubmit={handleSubmit}
         >
+
           {/* Email */}
+
           <TextField
             isRequired
             name="email"
             type="email"
           >
-            <Label>Email Address</Label>
 
-            <Input placeholder="john@example.com" />
+            <Label className="text-gray-300">
+              Email Address
+            </Label>
+
+            <Input
+              placeholder="john@example.com"
+              className={"bg-transparent text-white placeholder:text-gray-500 border border-white/10 hover:border-violet-500 focus-within:border-violet-500 backdrop-blur-md"}
+            />
 
             <FieldError />
+
           </TextField>
 
           {/* Password */}
+
           <TextField
             isRequired
             name="password"
             type="password"
           >
-            <Label>Password</Label>
 
-            <Input placeholder="Enter your password" />
+            <Label className="text-gray-300">
+              Password
+            </Label>
 
-            <Description>
+            <Input
+              placeholder="Enter your password"
+             className={"bg-transparent text-white placeholder:text-gray-500 border border-white/10 hover:border-violet-500 focus-within:border-violet-500 backdrop-blur-md"}
+            />
+
+            <Description className="text-gray-500">
               Use the password you created during registration.
             </Description>
 
             <FieldError />
+
           </TextField>
 
           {/* Forgot Password */}
+
           <div className="flex justify-end w-full">
+
             <button
               type="button"
-              className="text-sm font-medium text-primary hover:underline"
+              className="text-sm text-violet-400 hover:text-violet-300 transition"
             >
               Forgot Password?
             </button>
+
           </div>
 
           {/* Submit */}
+
           <Button
             type="submit"
-            color="primary"
-            className="h-12 w-full font-semibold"
+            className="w-full h-12 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-semibold hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(139,92,246,.45)] transition-all duration-300"
           >
+
             <Check />
+
             Sign In
+
           </Button>
+
         </Form>
 
         {/* Divider */}
-        <div className="my-6 flex items-center gap-3">
-          <div className="h-px flex-1 bg-default-200"></div>
-          <span className="text-sm text-default-400">OR</span>
-          <div className="h-px flex-1 bg-default-200"></div>
+
+        <div className="my-8 flex items-center gap-4">
+
+          <div className="flex-1 h-px bg-white/10" />
+
+          <span className="text-sm text-gray-500">
+            OR
+          </span>
+
+          <div className="flex-1 h-px bg-white/10" />
+
         </div>
 
-        {/* Google Login */}
+        {/* Google Button */}
+
         <Button
-          variant="outline"
-          className="w-full h-12"
+          variant="bordered"
+          className="w-full h-12 border-white/10 bg-white/5 text-white hover:bg-white/10"
         >
+
+          <FcGoogle className="text-xl" />
+
           Continue with Google
+
         </Button>
 
         {/* Footer */}
-        <p className="mt-8 text-center text-default-500">
-          Don't have an account?{" "}
+
+        <div className="mt-8 text-center text-gray-400">
+
+          Don't have an account?
+
           <Link href="/signup">
-          <button
-            type="button"
-            className="font-semibold text-primary hover:underline"
-          >
-            Create Account
-          </button>
+
+            <span className="ml-2 cursor-pointer font-semibold text-violet-400 hover:text-violet-300 transition">
+              Create Account
+            </span>
+
           </Link>
-        </p>
+
+        </div>
+
       </div>
+
     </section>
   );
 }
