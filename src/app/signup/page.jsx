@@ -13,20 +13,27 @@ import {
 
 import { Check } from "@gravity-ui/icons";
 import Link from "next/link";
+import { uploadImage } from "@/lib/action";
 
 export default function SignupForm() {
   const [image, setImage] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
+    
+   let imageUrl = "";
+
+    if (image) {
+    imageUrl = await uploadImage(image);
+    }
 
     console.log({
       name: formData.get("name"),
       email: formData.get("email"),
       password: formData.get("password"),
-      image,
+      image: imageUrl,
     });
   };
 
@@ -116,6 +123,7 @@ export default function SignupForm() {
 
               <input
                 hidden
+                name="image"
                 id="image"
                 type="file"
                 accept="image/*"
