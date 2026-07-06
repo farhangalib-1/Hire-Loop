@@ -2,11 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import {ArrowRightFromSquare, Gear, Persons} from "@gravity-ui/icons";
+import {Avatar, Dropdown, Label} from "@heroui/react";
 
 import { Button } from "@heroui/react";
 import { Bars } from "@gravity-ui/icons";
 import Image from "next/image";
 import logo from "@/images/logo.png";
+import { authClient } from "@/lib/auth-client";
 
 const navItems = [
   { name: "Browse Jobs", href: "/jobs" },
@@ -16,6 +19,15 @@ const navItems = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { data: session } = authClient.useSession()
+  const user = session?.user;
+  const name = user?.name;
+  const role = user?.role;
+
+  
+  if(user){
+    navItems.push({ name: "Dashboard", href: "/dashboard" });
+  }
 
   return (
     <header className="w-full px-4 py-4 fixed z-50">
@@ -36,8 +48,56 @@ export default function Navbar() {
         </nav>
         <div className="hidden items-center gap-5 md:flex">
           <div className="h-5 w-px bg-gray-600" />
-
-          <Link
+          {
+              user ? (
+                <Dropdown>
+      <Dropdown.Trigger className="rounded-full">
+        <Avatar>
+          <Avatar.Image
+            alt="Junior Garcia"
+            src={user?.image}
+          />
+          <Avatar.Fallback delayMs={600}>FG</Avatar.Fallback>
+        </Avatar>
+      </Dropdown.Trigger>
+      <Dropdown.Popover>
+        <div className="px-3 pt-3 pb-1">
+          <div className="flex items-center gap-2">
+            <Avatar size="sm">
+              <Avatar.Image
+                alt="Jane"
+                src={user?.image}
+              />
+              <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+            </Avatar>
+            <div className="flex flex-col gap-0">
+              <p className="text-sm leading-5 font-medium">{user?.name}</p>
+              <p className="text-xs leading-none text-muted">{user?.email}</p>
+            </div>
+          </div>
+        </div>
+        <Dropdown.Menu>
+          <Dropdown.Item id="dashboard" textValue="Dashboard">
+            <Link className="font-semibold" href={`/dashboard/${role}`}>
+              Dashboard
+            </Link>
+          </Dropdown.Item>
+          <Dropdown.Item id="profile" textValue="Profile">
+            <Link className="font-semibold" href="/profile">Profile</Link>
+          </Dropdown.Item>
+          <Dropdown.Item id="logout" textValue="Logout" variant="danger">
+            <div className="flex w-full items-center justify-between gap-2">
+              <Button onClick={async () => await authClient.signOut()} variant="danger-soft" className={"w-full"}>
+                Log Out
+                <ArrowRightFromSquare />
+              </Button>
+              
+            </div>
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown.Popover>
+    </Dropdown>
+              ) : <>  <Link
             href="/signin"
             className="text-sm font-medium text-indigo-400 hover:text-indigo-300"
           >
@@ -52,6 +112,10 @@ export default function Navbar() {
             Get Started
           </Button>
           </Link>
+          </>
+            }
+
+          
         </div>
         <button
           onClick={() => setOpen(!open)}
@@ -75,6 +139,7 @@ export default function Navbar() {
             ))}
 
             <hr className="border-gray-700" />
+            
 
             <Link
               href="/signin"
