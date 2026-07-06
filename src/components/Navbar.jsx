@@ -24,11 +24,6 @@ export default function Navbar() {
   const name = user?.name;
   const role = user?.role;
 
-  
-  if(user){
-    navItems.push({ name: "Dashboard", href: "/dashboard" });
-  }
-
   return (
     <header className="w-full px-4 py-4 fixed z-50">
       <div className="mx-auto flex max-w-7xl items-center justify-between rounded-2xl bg-[#1F1F1F] px-6 py-3 shadow-lg">
@@ -96,7 +91,7 @@ export default function Navbar() {
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown.Popover>
-    </Dropdown>
+                    </Dropdown>
               ) : <>  <Link
             href="/signin"
             className="text-sm font-medium text-indigo-400 hover:text-indigo-300"
@@ -140,8 +135,58 @@ export default function Navbar() {
 
             <hr className="border-gray-700" />
             
-
-            <Link
+            {
+              user ? (   
+              <Dropdown className="w-full">
+      <Dropdown.Trigger className="rounded-full">
+        <Avatar>
+          <Avatar.Image
+            alt="Junior Garcia"
+            src={user?.image}
+          />
+          <Avatar.Fallback delayMs={600}>FG</Avatar.Fallback>
+        </Avatar>
+      </Dropdown.Trigger>
+      <Dropdown.Popover>
+        <div className="px-3 pt-3 pb-1 ">
+          <div className="flex items-center gap-2">
+            <Avatar size="sm">
+              <Avatar.Image
+                alt="Jane"
+                src={user?.image}
+              />
+              <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+            </Avatar>
+            <div className="flex flex-col gap-0">
+              <p className="text-sm leading-5 font-medium">{user?.name}</p>
+              <p className="text-[8px] leading-none text-muted">{user?.email}</p>
+            </div>
+          </div>
+        </div>
+        <Dropdown.Menu>
+          <Dropdown.Item id="dashboard" textValue="Dashboard">
+            <Link className="font-semibold text-xs" href={`/dashboard/${role}`}>
+              Dashboard
+            </Link>
+          </Dropdown.Item>
+          <Dropdown.Item id="profile" textValue="Profile">
+            <Link className="font-semibold text-xs" href="/profile">Profile</Link>
+          </Dropdown.Item>
+          <Dropdown.Item id="logout" textValue="Logout" variant="danger">
+            <div className="flex w-full items-center justify-between gap-2">
+              <Button onClick={async () => await authClient.signOut()} variant="danger-soft" className={"w-full text-xs"}>
+                Log Out
+                <ArrowRightFromSquare />
+              </Button>
+              
+            </div>
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown.Popover>
+                    </Dropdown>) : 
+                    
+                    <>
+                    <Link
               href="/signin"
               onClick={() => setOpen(false)}
               className="text-indigo-400"
@@ -149,13 +194,17 @@ export default function Navbar() {
               Sign In
             </Link>
 
+            <Link href="/signup" onClick={() => setOpen(false)}>
             <Button
-              as={Link}
               href="/signup"
               className="bg-violet-600 text-white"
             >
               Get Started
             </Button>
+            </Link>
+                    </>
+            }
+            
           </div>
         </div>
       )}
