@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ListBox, Select } from "@heroui/react";
 import {
   Form,
   TextField,
@@ -14,13 +15,16 @@ import {
 import { Check } from "@gravity-ui/icons";
 import Link from "next/link";
 import { uploadImage } from "@/lib/action";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function SignupForm() {
   const [image, setImage] = useState(null);
+  const router = useRouter();
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-
+    
     const formData = new FormData(e.currentTarget);
     
    let imageUrl = "";
@@ -28,13 +32,16 @@ export default function SignupForm() {
     if (image) {
     imageUrl = await uploadImage(image);
     }
-
-    console.log({
+const { data, error } = await authClient.signUp.email({
       name: formData.get("name"),
       email: formData.get("email"),
       password: formData.get("password"),
+      role: formData.get("role"),
       image: imageUrl,
-    });
+
+    })
+    console.log(data, error);
+    router.push("/signin");
   };
 
   return (
@@ -183,7 +190,37 @@ export default function SignupForm() {
             <FieldError />
 
           </TextField>
+<Select
+  id="role"
+  className="w-full"
+  name="role"
+  placeholder="Select your role"
+>
+  <Label className="text-gray-300">
+    Role
+  </Label>
 
+  <Select.Trigger defaultSelectedKey="seeker" className="text-white bg-transparent border border-white/10 hover:border-violet-500 data-[focus=true]:border-violet-500">
+    <Select.Value />
+    <Select.Indicator />
+  </Select.Trigger>
+
+  <Select.Popover>
+    <ListBox>
+
+      <ListBox.Item id="seeker" textValue="Job Seeker">
+        👤 Job Seeker
+        <ListBox.ItemIndicator />
+      </ListBox.Item>
+
+      <ListBox.Item id="recruiter" textValue="Recruiter">
+        🏢 Recruiter
+        <ListBox.ItemIndicator />
+      </ListBox.Item>
+
+    </ListBox>
+  </Select.Popover>
+</Select>
           {/* Password */}
 
           <TextField
