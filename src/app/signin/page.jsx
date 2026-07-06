@@ -13,17 +13,27 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import { Check } from "@gravity-ui/icons";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
-  const handleSubmit = (e) => {
+  const router = useRouter();
+  const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-
-    console.log({
+    const { data, error } = await authClient.signIn.email({
       email: formData.get("email"),
-      password: formData.get("password"),
-    });
+    password: formData.get("password")
+    })
+      if(!error){
+        alert("Welcome back! You have successfully signed in.");
+        router.push("/");
+      }
+      if(error){
+        alert("Error signing in: " + error.message);
+      }
   };
 
   return (
